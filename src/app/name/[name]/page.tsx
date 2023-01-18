@@ -1,5 +1,5 @@
 import DeckButton from "@/components/DeckButton";
-import { ParamsID, Response } from "@/types";
+import {  ParamsName, Response } from "@/types";
 import Image from "next/image";
 
 export const dynamicParams = false;
@@ -10,12 +10,13 @@ export async function generateStaticParams() {
 
   return cards.data
     .filter((_, i) => i < 100)
-    .map((card) => ({ id: card.id.toString() }));
+    .map((card) => ({ name: card.name}));
 }
 
-async function getCard(id: string) {
+async function getCard(name: string) {
+  console.log(name)
   const res = await fetch(
-    `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}`
+    `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${name}`
   );
 
   const card: Response = await res.json();
@@ -23,8 +24,12 @@ async function getCard(id: string) {
   return card;
 }
 
-const page = async ({ params }: ParamsID) => {
-  const card = await getCard(params.id);
+const page = async ({ params }: ParamsName) => {
+console.log
+  const parsedName=params.name.split("-").join(" ")
+  console.log(parsedName)
+
+  const card = await getCard(parsedName);
 
   const parsed = card.data.map((item) => {
     return {

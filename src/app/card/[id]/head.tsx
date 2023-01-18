@@ -1,12 +1,21 @@
-import { FC } from "react";
+import { ParamsID, Response } from "@/types";
 
+async function getCard(id: string) {
+  const res = await fetch(
+    `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}`
+  );
 
-const Head: React.FC = () => {
+  const card: Response = await res.json();
+
+  return card.data[0].name;
+}
+
+const Head = async ({ params }: ParamsID) => {
+  const title = await getCard(params.id);
 
   return (
     <>
-      <title> indicidual card</title>
-      
+      <title>{title}</title>
     </>
   );
 };

@@ -1,11 +1,14 @@
 import Header from "@/components/Header";
 import "./globals.css";
+import { Inter } from "@next/font/google";
 
-export default function RootLayout({
+const inter = Inter({ subsets: ["latin"] });
+
+ const RootLayout=({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) =>{
   return (
     <html className="dark" lang="en">
       {/*
@@ -13,9 +16,9 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className="bg-white dark:bg-zinc-900 dark:text-white  ">
+      <body className= {`${inter.className} bg-white dark:bg-background dark:text-white`} >
       <Header />
-        <main className="container mx-auto md:px-48 px-4">
+        <main className="container mx-auto md:px-24 px-4">
           
           {children}
         </main>
@@ -23,3 +26,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+export default RootLayout

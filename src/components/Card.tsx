@@ -1,35 +1,34 @@
-"use client";
-
-import { Datum, Icard } from "@/types";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import React, { FC } from "react";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import { Icard } from "@/types";
 
 type Props = {
   card: Icard;
 };
 
 const Card = ({ card }: Props) => {
-  const router = useRouter();
-
-  const handleClick = () => {
-    router.push(`card/${card.id}`);
-  };
+  const { id, name, card_images } = card;
+  const parsedName = name.split(" ").join("-").toLowerCase();
 
   return (
-    <article
-      onClick={handleClick}
-      className="group rounded hover:bg-zinc-700  bg-zinc-800  my-4 w-[170px] h-[310px] flex flex-col justify-between p-2  "
-    >
-      <h2 className="text-center group-hover:text-yellow-700 ">{card.name}</h2>
-      <Image
-        className="w-auto h-auto mx-auto"
-        src={ card.card_images.image_url }
-        alt={"digimon picture"}
-        width={150}
-        height={200}
-      ></Image>
-    </article>
+    <Link href={`card/${id}`}>
+      <article className="group rounded hover:bg-zinc-700  bg-card  my-4 w-[170px] h-[310px] flex flex-col justify-between p-2  ">
+        <h2 className="text-text text-center group-hover:text-primary ">
+          {name}
+        </h2>
+        <Image
+          priority
+          className="w-auto h-auto mx-auto"
+          src={card_images.image_url}
+          alt={"digimon picture"}
+          width={150}
+          height={200}
+        ></Image>
+      </article>
+    </Link>
   );
 };
 

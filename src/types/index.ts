@@ -10,15 +10,14 @@ export interface Icard {
   "card_images": 
     {
       "image_url": string,
-      "image_url_small": string,
-      "image_url_cropped": string
+   
     }
   ,
 }
 
 
 
-export interface Res {
+export interface Response {
   data: Datum[];
 }
 
@@ -60,3 +59,11 @@ export interface CardSet {
   set_rarity_code: string;
   set_price:       string;
 }
+
+export type ParamsID = {
+  params: { id: string };
+};
+
+export type ParamsName = {
+  params: { name: string };
+};
