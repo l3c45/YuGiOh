@@ -1,3 +1,4 @@
+import MetaTags from "@/components/MetaTags";
 import { ParamsID, Response } from "@/types";
 
 async function getCard(id: string) {
@@ -7,14 +8,20 @@ async function getCard(id: string) {
 
   const card: Response = await res.json();
 
-  return card.data[0].name;
+  return card;
 }
 
 const Head = async ({ params }: ParamsID) => {
-  const title = await getCard(params.id);
-
+  const request = await getCard(params.id);
+  let title;
+  if (request.error) {
+    title = "Error";
+  } else {
+    title = request.data[0].name;
+  }
   return (
     <>
+      <MetaTags />
       <title>{title}</title>
     </>
   );

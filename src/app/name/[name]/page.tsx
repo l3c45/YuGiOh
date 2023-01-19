@@ -1,35 +1,35 @@
 import DeckButton from "@/components/DeckButton";
-import {  ParamsName, Response } from "@/types";
+import { Error, ParamsName, Response } from "@/types";
 import Image from "next/image";
+import { notFound, redirect } from 'next/navigation'
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const res = await fetch("https://db.ygoprodeck.com/api/v7/cardinfo.php");
   const cards: Response = await res.json();
 
   return cards.data
-    .filter((_, i) => i < 100)
-    .map((card) => ({ name: card.name}));
+    .filter((_, i) => i > 10 && i < 110)
+    .map((card) => ({ name: card.name.split(" ").join("_").toLowerCase() }));
 }
 
 async function getCard(name: string) {
-  console.log(name)
   const res = await fetch(
     `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${name}`
   );
 
-  const card: Response = await res.json();
+  const card: Response  = await res.json();
 
   return card;
 }
 
 const page = async ({ params }: ParamsName) => {
-console.log
-  const parsedName=params.name.split("-").join(" ")
-  console.log(parsedName)
+  const parsedName = params.name.split("_").join(" ");
 
-  const card = await getCard(parsedName);
+  const card  = await getCard(parsedName);
+
+  if(card.error) redirect("/")
 
   const parsed = card.data.map((item) => {
     return {
@@ -51,6 +51,7 @@ console.log
     <section>
       <article className=" text-text relative dark:bg-card mt-4 p-4 rounded flex lg:flex-row flex-col">
         <Image
+        priority
           className="w-auto h-auto mx-auto"
           src={image}
           alt="CARD IMAGE"
@@ -92,8 +93,8 @@ console.log
             </>
           ) : null}
 
-          {desc.split(".").map((item) => (
-            <p key={Date.now()} className="md:px-12 px-2 text-justify">
+          {desc.split(".").map((item,i) => (
+            <p key={i} className="md:px-12 px-2 text-justify">
               {item}
             </p>
           ))}

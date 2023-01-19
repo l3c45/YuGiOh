@@ -31,7 +31,7 @@ const Home = async () => {
     <section>
       <ul className="flex flex-row flex-wrap justify-evenly items-center">
         {cards.map((item, i) =>
-          i < 100 ? <Card key={item.id} card={item}></Card> : null
+          i>10&&i < 110 ? <Card key={item.id} card={item}></Card> : null
         )}
       </ul>
     </section>

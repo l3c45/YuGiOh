@@ -11,10 +11,11 @@ type Props = {
 
 const Card = ({ card }: Props) => {
   const { id, name, card_images } = card;
-  const parsedName = name.split(" ").join("-").toLowerCase();
+
+  const parsedName = name.split(" ").join("_").toLowerCase();
 
   return (
-    <Link href={`card/${id}`}>
+    <Link href={`name/${parsedName}`}>
       <article className="group rounded hover:bg-zinc-700  bg-card  my-4 w-[170px] h-[310px] flex flex-col justify-between p-2  ">
         <h2 className="text-text text-center group-hover:text-primary ">
           {name}

@@ -15,10 +15,14 @@ export interface Icard {
   ,
 }
 
-
+export interface Error {
+  error: string
+}
 
 export interface Response {
   data: Datum[];
+  error?: string;
+  
 }
 
 export interface Datum {

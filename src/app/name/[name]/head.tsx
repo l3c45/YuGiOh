@@ -1,4 +1,5 @@
-import {  ParamsName, Response } from "@/types";
+import MetaTags from "@/components/MetaTags";
+import { ParamsName, Response } from "@/types";
 
 async function getCard(name: string) {
   const res = await fetch(
@@ -7,15 +8,21 @@ async function getCard(name: string) {
 
   const card: Response = await res.json();
 
-  return card.data[0].name;
+  return card;
 }
 
 const Head = async ({ params }: ParamsName) => {
-  const title = await getCard(params.name);
-
+  const request = await getCard(params.name);
+  let title;
+  if (request.error) {
+    title = "Error";
+  } else {
+    title = request.data[0].name;
+  }
   return (
     <>
       <title>{title}</title>
+      <MetaTags />
     </>
   );
 };
